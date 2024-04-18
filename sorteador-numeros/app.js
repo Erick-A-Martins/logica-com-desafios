@@ -4,17 +4,33 @@ function sortear() {
     let de = parseInt(document.getElementById('de').value);
     let ate = parseInt(document.getElementById('ate').value);
 
+    if(de >= ate) {
+        alert('O número inicial não pode ser maior que o número final!');
+        limparCampos();
+        return;
+    }
+
     let sorteados = [];
     let numero;
-    for(let i = 0; i < quantidade; i++) {
-        numero = numeroAleatorio(de, ate);
+    
+    if(quantidade <= (ate - de)) {
 
-        while(sorteados.includes(numero)) {
+        for(let i = 0; i < quantidade; i++) {
             numero = numeroAleatorio(de, ate);
-        }
+    
+            while(sorteados.includes(numero)) {
+                numero = numeroAleatorio(de, ate);
+            }
+    
+            sorteados.push(numero);
+        } 
 
-        sorteados.push(numero);
-    } 
+    } else {
+        alert('A quantidade de números deve estar entre o intervalo de números aleatórios solicitados!');
+        limparCampos();
+        return;
+    }
+    
 
     let resultado = document.getElementById('resultado');
     resultado.innerHTML = `<label class="texto__paragrafo">Números sorteados: ${sorteados}</label>`;
@@ -45,4 +61,10 @@ function reiniciar() {
     document.getElementById('resultado').innerHTML = '<label class="texto__paragrafo">Números sorteados:  nenhum até agora</label>';
 
     alterarStatusBotao();
+}
+
+function limparCampos() {
+    document.getElementById('quantidade').value = '';
+    document.getElementById('de').value = '';
+    document.getElementById('ate').value = '';
 }
